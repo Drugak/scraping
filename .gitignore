@@ -4,3 +4,4 @@
 .idea/modules.xml
 .idea/test-scraping.iml
 .idea/vcs.xml
+node_modules
