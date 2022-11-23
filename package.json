@@ -1,0 +1,20 @@
+{
+  "name": "test-scraping",
+  "version": "0.0.1",
+  "description": "Assessment to TRG",
+  "main": "index.js",
+  "scripts": {
+    "test": "Here is must be a tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Drugak/test-scraping.git"
+  },
+  "keywords": [],
+  "author": "Vitaliy Drugak",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Drugak/test-scraping/issues"
+  },
+  "homepage": "https://github.com/Drugak/test-scraping#readme"
+}
