@@ -22,22 +22,14 @@ const runCrawler = function (db) {
         /**
          * Get Laptops info.
          */
-        .use(crawlerAction({
-            url: LENOVO.LAPTOPS.URL,
-            waitForXPath: LENOVO.LAPTOPS.waitForXPath,
-            crawlerType: LENOVO.LAPTOPS.crawlerType
-        }))
+        .use(crawlerAction({...LENOVO.LAPTOPS}))
         .then((payload) => updatedDB(payload, db, LENOVO.LAPTOPS.dbPatch))
 
         /**
          * Get Desktops info.
          */
         .then(() => {
-            return nightmare.use(crawlerAction({
-                url: LENOVO.DESKTOPS.URL,
-                waitForXPath: LENOVO.DESKTOPS.waitForXPath,
-                crawlerType: LENOVO.DESKTOPS.crawlerType
-            }))
+            return nightmare.use(crawlerAction({...LENOVO.DESKTOPS}))
         })
         .then((payload) => updatedDB(payload, db, LENOVO.DESKTOPS.dbPatch))
 
@@ -45,11 +37,7 @@ const runCrawler = function (db) {
          * Get Tablets info.
          */
         .then(() => {
-            return nightmare.use(crawlerAction({
-                url: LENOVO.TABLETS.URL,
-                waitForXPath: LENOVO.TABLETS.waitForXPath,
-                crawlerType: LENOVO.TABLETS.crawlerType
-            }))
+            return nightmare.use(crawlerAction({...LENOVO.TABLETS}))
         })
         .then((payload) => updatedDB(payload, db, LENOVO.TABLETS.dbPatch))
 
@@ -57,11 +45,7 @@ const runCrawler = function (db) {
          * Get Monitors info.
          */
         .then(() => {
-            return nightmare.use(crawlerAction({
-                url: LENOVO.MONITORS.URL,
-                waitForXPath: LENOVO.MONITORS.waitForXPath,
-                crawlerType: LENOVO.MONITORS.crawlerType
-            }))
+            return nightmare.use(crawlerAction({...LENOVO.MONITORS}))
         })
         .then((payload) => updatedDB(payload, db, LENOVO.MONITORS.dbPatch))
 
