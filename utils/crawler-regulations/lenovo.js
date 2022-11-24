@@ -6,29 +6,32 @@ function lenovoCrawlerLaptops() {
 
     const getProductName = (el) => el.querySelector('.product_info.left_item .product_title a').textContent.trim();
     const getProductDetails = (el) => {
-        let detailsArr = [];
+        let result = [];
         const detailsElemArr = el.querySelectorAll('.product_bottom .product-details .hover_ul_keyDetails li.hover_keyDetails');
-
-        for (const element of detailsElemArr) {
-            detailsArr.push({
+        const createDetailsObj = (element) => {
+            return {
                 detailsKey: element.querySelector('.keyDetailsKey').textContent,
                 description: element.querySelector('.keyDetailsKey + span').textContent
-            })
-        }
-        return detailsArr;
+            }
+        };
+
+        detailsElemArr.forEach((element) => result.push(createDetailsObj(element)));
+
+        return result;
     };
 
     const createPayload = () => {
-        let modelsArray = [];
-        for (const element of productsList) {
-            modelsArray.push({
+        let result = [];
+
+        productsList.forEach((element) => {
+            result.push({
                 name: getProductName(element),
                 details: getProductDetails(element)
             })
-        }
+        });
 
-        return modelsArray;
-    }
+        return result;
+    };
 
     return createPayload();
 }
@@ -38,8 +41,8 @@ function sendToDB(payload, db, dbPatch) {
     updates[dbPatch] = payload;
 
     update(ref(db), updates)
-        .then((res) => console.log(res, "===res=="))
-        .catch((err) => console.log(err, "===errr"));
+        .then((res) => console.log(res, "=== That was great man! =="))
+        .catch((err) => console.log(err, "=== Oh, again? This is ERROR! =="));
 }
 
 module.exports = {lenovoCrawlerLaptops, sendToDB};
