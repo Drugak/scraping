@@ -3,9 +3,12 @@ const app = express()
 const { initializeApp } = require('firebase/app');
 const { getDatabase } = require("firebase/database");
 const port = 3000
-const {runCrawler} = require('./utils/crawler-functionality')
+const {runCrawler} = require('./src/crawler-functionality')
 
 const firebaseApp = initializeApp({
+    /**
+     * Yeah, I know, this is not secure. Sorry about that.
+     */
     apiKey: "AIzaSyDIH1cUVz5_iuXOtpEEvW1KSIpVVN0U0S0",
     authDomain: "test-trg-4b842-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "test-trg-4b842",

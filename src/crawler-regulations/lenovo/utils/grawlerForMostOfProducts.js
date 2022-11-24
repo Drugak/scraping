@@ -1,5 +1,3 @@
-const {update, ref} = require("firebase/database");
-
 function lenovoCrawlerLaptops() {
     const XPath = '.layoutGroup .content .product_list.product_list_column .skeleton_product li.product_item';
     const productsList = document.querySelectorAll(XPath);
@@ -36,13 +34,4 @@ function lenovoCrawlerLaptops() {
     return createPayload();
 }
 
-function sendToDB(payload, db, dbPatch) {
-    const updates = {};
-    updates[dbPatch] = payload;
-
-    update(ref(db), updates)
-        .then((res) => console.log(res, "=== That was great man! =="))
-        .catch((err) => console.log(err, "=== Oh, again? This is ERROR! =="));
-}
-
-module.exports = {lenovoCrawlerLaptops, sendToDB};
+module.exports = {lenovoCrawlerLaptops}

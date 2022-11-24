@@ -1,10 +1,9 @@
 const Nightmare = require('nightmare');
-const nightmare = Nightmare({ show: false, dock: true});
-
-const {lenovoCrawlerLaptops, sendToDB} = require('./crawler-regulations/lenovo');
+const {lenovoCrawlerLaptops} = require('./crawler-regulations/lenovo');
+const updatedDB = require('../src/API/update');
 const {LENOVO} = require('../consts');
 
-
+const nightmare = Nightmare({ show: false, dock: true});
 const crawlerAction = ({url, waitForXPath}) =>
     (nightmare) =>
         nightmare
@@ -23,7 +22,7 @@ const runCrawler = function (db) {
             url: LENOVO.LAPTOPS.URL,
             waitForXPath: LENOVO.LAPTOPS.waitForXPath
         }))
-        .then((payload) => sendToDB(payload, db, LENOVO.LAPTOPS.dbPatch))
+        .then((payload) => updatedDB(payload, db, LENOVO.LAPTOPS.dbPatch))
 
         /**
          * Get Desktops info.
@@ -34,7 +33,7 @@ const runCrawler = function (db) {
                 waitForXPath: LENOVO.DESKTOPS.waitForXPath
             }))
         })
-        .then((payload) => sendToDB(payload, db, LENOVO.DESKTOPS.dbPatch))
+        .then((payload) => updatedDB(payload, db, LENOVO.DESKTOPS.dbPatch))
 
         /**
          * Get Tablets info.
@@ -45,7 +44,7 @@ const runCrawler = function (db) {
                 waitForXPath: LENOVO.TABLETS.waitForXPath
             }))
         })
-        .then((payload) => sendToDB(payload, db, LENOVO.TABLETS.dbPatch))
+        .then((payload) => updatedDB(payload, db, LENOVO.TABLETS.dbPatch))
 
         /**
          * Get Monitors info.
@@ -56,7 +55,7 @@ const runCrawler = function (db) {
                 waitForXPath: LENOVO.MONITORS.waitForXPath
             }))
         })
-        .then((payload) => sendToDB(payload, db, LENOVO.MONITORS.dbPatch))
+        .then((payload) => updatedDB(payload, db, LENOVO.MONITORS.dbPatch))
 
         /**
          * Finalise all crawler actions.
