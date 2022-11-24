@@ -1,14 +1,21 @@
-const Crawler = require('crawler');
+const Nightmare = require('nightmare');
+const nightmare = Nightmare({ show: false, dock: true});
+
 const {lenovoCrawlerCallback} = require('./crawler-regulations/lenovo');
 const {LENOVO} = require('../consts');
 
-const crawlerInstance = new Crawler({
-    maxConnections: 10
-});
+
 
 const runCrawler = function () {
-    console.log('run crawler ===');
-    crawlerInstance.queue([{uri: LENOVO.LAPTOPS.URL, callback: lenovoCrawlerCallback}]);
+    nightmare
+        .goto(LENOVO.LAPTOPS.URL)
+        .wait(LENOVO.LAPTOPS.waitForXPath)
+        .evaluate(lenovoCrawlerCallback)
+        .end()
+        .then(console.log)
+        .catch(error => {
+            console.error('Search failed:', error)
+        });
 };
 
 module.exports = {runCrawler};
