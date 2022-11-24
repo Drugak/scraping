@@ -34,4 +34,4 @@ function lenovoCrawlerPhones() {
     return createPayload();
 }
 
-module.exports = {lenovoCrawlerPhones}
+module.exports = lenovoCrawlerPhones;

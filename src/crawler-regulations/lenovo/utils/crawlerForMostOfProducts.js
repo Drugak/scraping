@@ -34,4 +34,4 @@ function lenovoCrawlerLaptops() {
     return createPayload();
 }
 
-module.exports = {lenovoCrawlerLaptops}
+module.exports = lenovoCrawlerLaptops;

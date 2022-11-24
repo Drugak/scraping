@@ -1,15 +1,19 @@
 const Nightmare = require('nightmare');
-const {lenovoCrawlerLaptops} = require('./crawler-regulations/lenovo');
+const {lenovoCrawlerLaptops, lenovoCrawlerPhones} = require('./crawler-regulations/lenovo');
 const updatedDB = require('../src/API/update');
 const {LENOVO} = require('../consts');
 
 const nightmare = Nightmare({ show: false, dock: true});
-const crawlerAction = ({url, waitForXPath}) =>
+const crawlerTypeActions = {
+    laptop: lenovoCrawlerLaptops,
+    phone: lenovoCrawlerPhones
+};
+const crawlerAction = ({url, waitForXPath, crawlerType}) =>
     (nightmare) =>
         nightmare
             .goto(url)
             .wait(waitForXPath)
-            .evaluate(lenovoCrawlerLaptops);
+            .evaluate(crawlerTypeActions[crawlerType]);
 
 
 const runCrawler = function (db) {
@@ -20,7 +24,8 @@ const runCrawler = function (db) {
          */
         .use(crawlerAction({
             url: LENOVO.LAPTOPS.URL,
-            waitForXPath: LENOVO.LAPTOPS.waitForXPath
+            waitForXPath: LENOVO.LAPTOPS.waitForXPath,
+            crawlerType: LENOVO.LAPTOPS.crawlerType
         }))
         .then((payload) => updatedDB(payload, db, LENOVO.LAPTOPS.dbPatch))
 
@@ -30,7 +35,8 @@ const runCrawler = function (db) {
         .then(() => {
             return nightmare.use(crawlerAction({
                 url: LENOVO.DESKTOPS.URL,
-                waitForXPath: LENOVO.DESKTOPS.waitForXPath
+                waitForXPath: LENOVO.DESKTOPS.waitForXPath,
+                crawlerType: LENOVO.DESKTOPS.crawlerType
             }))
         })
         .then((payload) => updatedDB(payload, db, LENOVO.DESKTOPS.dbPatch))
@@ -41,7 +47,8 @@ const runCrawler = function (db) {
         .then(() => {
             return nightmare.use(crawlerAction({
                 url: LENOVO.TABLETS.URL,
-                waitForXPath: LENOVO.TABLETS.waitForXPath
+                waitForXPath: LENOVO.TABLETS.waitForXPath,
+                crawlerType: LENOVO.TABLETS.crawlerType
             }))
         })
         .then((payload) => updatedDB(payload, db, LENOVO.TABLETS.dbPatch))
@@ -52,7 +59,8 @@ const runCrawler = function (db) {
         .then(() => {
             return nightmare.use(crawlerAction({
                 url: LENOVO.MONITORS.URL,
-                waitForXPath: LENOVO.MONITORS.waitForXPath
+                waitForXPath: LENOVO.MONITORS.waitForXPath,
+                crawlerType: LENOVO.MONITORS.crawlerType
             }))
         })
         .then((payload) => updatedDB(payload, db, LENOVO.MONITORS.dbPatch))

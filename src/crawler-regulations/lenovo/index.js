@@ -1,7 +1,7 @@
 
-const {lenovoCrawlerLaptops} = require('./utils/grawlerForMostOfProducts')
+const lenovoCrawlerLaptops = require('./utils/crawlerForMostOfProducts')
+const lenovoCrawlerPhones = require('./utils/crawlerForPhones')
 
 
 
-
-module.exports = {lenovoCrawlerLaptops};
+module.exports = {lenovoCrawlerLaptops, lenovoCrawlerPhones};
