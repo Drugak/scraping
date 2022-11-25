@@ -29,4 +29,14 @@ const LENOVO = {
     }
 };
 
-module.exports = {LENOVO}
+const ASUS = {
+    PHONES: {
+        url: 'https://www.asus.com/uk/mobile/phones/all-series/filter?Series=ROG-Phone,ZenFone',
+        XPath: '#filterWrapper #productListContainer .LevelThreeFilterPage__productListTemplate__Qnsre .filter_product_list',
+        waitForXPath: '#filterWrapper #productListContainer .LevelThreeFilterPage__productListTemplate__Qnsre .filter_product_list',
+        dbPatch: 'companies/asus/phones',
+        crawlerType: 'phone'
+    }
+}
+
+module.exports = {LENOVO, ASUS}

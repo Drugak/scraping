@@ -3,7 +3,7 @@ const app = express()
 const { initializeApp } = require('firebase/app');
 const { getDatabase } = require("firebase/database");
 const port = 3000
-const {runCrawler} = require('./src/crawler-functionality')
+const {runCrawler} = require('./src/crawler')
 
 const firebaseApp = initializeApp({
     /**
