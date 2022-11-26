@@ -22,7 +22,11 @@ const updateIdCatalog = (companyName, db) => {
             const updates = {};
             updates['idCatalog'] = payload;
 
+            console.log("============================");
+            console.log("======= Product ID's =======");
             console.log(payload);
+            console.log("============================");
+            console.log("============================");
 
             /**
              * Yes, I know :-(
