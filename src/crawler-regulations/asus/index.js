@@ -1,41 +1,57 @@
 const Nightmare = require("nightmare");
 
-const {asusCrawlerPhones} = require('./utils');
+const {asusCrawlerPhones, asusCrawlerMonitors, crawlerForAccessories} = require('./utils');
+const createIdForProduct = require('../createIdForProduct');
 const {ASUS} = require("../../../consts");
 const updatedDB = require("../../../src/API/update");
-
+const crawlerAction = require('../crawlerAction');
+const updateIdCatalog = require("../createIdCatalog");
 
 const nightmare = Nightmare({ show: false, dock: true});
-const crawlerTypeActions = {
-    phone: asusCrawlerPhones,
-};
 
-const crawlerAction = ({url, waitForXPath, crawlerType}) =>
-    (nightmare) =>
-        nightmare
-            .goto(url)
-            .wait(waitForXPath)
-            .evaluate(crawlerTypeActions[crawlerType]);
+let totalResult = {};
+
+const collectOfPayload = (payload, productType) => {
+    console.log('...Save:', productType);
+    return totalResult[productType] = [...payload];
+};
 
 const runAsusCrawler = (db) => {
     nightmare
         /**
-         * Get Laptops info.
+         * Get Phones info.
          */
-        .use(crawlerAction({...ASUS.PHONES}))
-        .then((payload) => updatedDB(payload, db, ASUS.PHONES.dbPatch))
+        .use(crawlerAction({...ASUS.PHONES}, asusCrawlerPhones))
+        .then((payload) => createIdForProduct(payload))
+        .then((payload) => collectOfPayload(payload, ASUS.PHONES.crawlerType))
 
         /**
-         * Get Desktops info.
+         * Get Monitors info.
          */
-        // .then(() => {
-        //     return nightmare.use(crawlerAction({...LENOVO.DESKTOPS}))
-        // })
-        // .then((payload) => updatedDB(payload, db, LENOVO.DESKTOPS.dbPatch))
+        .then(() => nightmare.use(crawlerAction({...ASUS.MONITORS}, asusCrawlerMonitors)))
+        .then((payload) => createIdForProduct(payload))
+        .then((payload) => collectOfPayload(payload, ASUS.MONITORS.crawlerType))
 
+        /**
+         * Get Monitors info.
+         */
+        .then(() => nightmare.use(crawlerAction({...ASUS.ACCESSORIES}, crawlerForAccessories)))
+        .then((payload) => createIdForProduct(payload))
+        .then((payload) => collectOfPayload(payload, ASUS.ACCESSORIES.crawlerType))
+
+        /**
+         * Send result to DB
+         */
+        .then(() => updatedDB(totalResult, db, ASUS.DB_PATH))
+        .then(() => updateIdCatalog(ASUS.NAME, db))
+
+        /**
+         * Finalise all crawler actions.
+         */
         .then(() => nightmare.end())
-        .then(() => console.log('Good Job!'))
         .catch((error) => console.error('Oh, again an error:', error));
-};
+}
+
+
 
 module.exports = runAsusCrawler;

@@ -4,6 +4,7 @@ const { initializeApp } = require('firebase/app');
 const { getDatabase } = require("firebase/database");
 const port = 3000
 const {runCrawler} = require('./src/crawler')
+const getProductById = require('./src/API/getProductById')
 
 const firebaseApp = initializeApp({
     /**
@@ -19,10 +20,12 @@ const firebaseApp = initializeApp({
 });
 const db = getDatabase(firebaseApp);
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
+app.get('/get-product-by-id', async (req, res) => {
+    const response = await getProductById(req, db);
+    res.send(response);
 });
 
 app.listen(port, () => {
+    console.log('===== Hi TRG team! ===== \t¯\\(°_o)/¯');
     runCrawler(db);
 });

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+## [1.0.0] - 2022-11-26
+### Added
+- Added request for getting product by ID.
+
 ## [0.0.8] - 2022-11-24
 ### Added
 - Making service more flex, for new types of companies and products.

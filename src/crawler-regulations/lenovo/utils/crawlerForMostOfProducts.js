@@ -17,6 +17,11 @@ function lenovoCrawlerLaptops() {
 
         return result;
     };
+    const getOriginImageUrl = (el) => {
+        const imgElement = el.querySelector('.product_left .product_image .normal_image > img');
+        return imgElement ? imgElement.src : undefined;
+    }
+
 
     const createPayload = () => {
         let result = [];
@@ -24,7 +29,8 @@ function lenovoCrawlerLaptops() {
         productsList.forEach((element) => {
             result.push({
                 name: getProductName(element),
-                details: getProductDetails(element)
+                details: getProductDetails(element),
+                originImageUrl: getOriginImageUrl(element)
             })
         });
 

@@ -1,60 +1,62 @@
 const Nightmare = require("nightmare");
 
-const {lenovoCrawlerLaptops, lenovoCrawlerPhones} = require('./utils');
+const {lenovoCrawlerLaptops} = require('./utils');
 const {LENOVO} = require("../../../consts");
 const updatedDB = require("../../../src/API/update");
+const crawlerAction = require('../crawlerAction');
+const createIdForProduct = require("../createIdForProduct");
+const updateIdCatalog = require('../createIdCatalog')
 
 
 const nightmare = Nightmare({ show: false, dock: true});
-const crawlerTypeActions = {
-    laptop: lenovoCrawlerLaptops,
-    phone: lenovoCrawlerPhones,
+let totalResult = {};
+
+const collectOfPayload = (payload, productType) => {
+    console.log('...Save:', productType);
+    return totalResult[productType] = [...payload];
 };
 
-const crawlerAction = ({url, waitForXPath, crawlerType}) =>
-    (nightmare) =>
-        nightmare
-            .goto(url)
-            .wait(waitForXPath)
-            .evaluate(crawlerTypeActions[crawlerType]);
 
 const runLenovoCrawler = (db) => {
     nightmare
         /**
          * Get Laptops info.
          */
-        .use(crawlerAction({...LENOVO.LAPTOPS}))
-        .then((payload) => updatedDB(payload, db, LENOVO.LAPTOPS.dbPatch))
+        .use(crawlerAction({...LENOVO.LAPTOPS}, lenovoCrawlerLaptops))
+        .then((payload) => createIdForProduct(payload))
+        .then((payload) => collectOfPayload(payload, LENOVO.LAPTOPS.crawlerType))
 
         /**
          * Get Desktops info.
          */
-        .then(() => {
-            return nightmare.use(crawlerAction({...LENOVO.DESKTOPS}))
-        })
-        .then((payload) => updatedDB(payload, db, LENOVO.DESKTOPS.dbPatch))
+        .then(() => nightmare.use(crawlerAction({...LENOVO.DESKTOPS}, lenovoCrawlerLaptops)))
+        .then((payload) => createIdForProduct(payload))
+        .then((payload) => collectOfPayload(payload, LENOVO.DESKTOPS.crawlerType))
 
         /**
          * Get Tablets info.
          */
-        .then(() => {
-            return nightmare.use(crawlerAction({...LENOVO.TABLETS}))
-        })
-        .then((payload) => updatedDB(payload, db, LENOVO.TABLETS.dbPatch))
+        .then(() => nightmare.use(crawlerAction({...LENOVO.TABLETS}, lenovoCrawlerLaptops)))
+        .then((payload) => createIdForProduct(payload))
+        .then((payload) => collectOfPayload(payload, LENOVO.TABLETS.crawlerType))
 
         /**
          * Get Monitors info.
          */
-        .then(() => {
-            return nightmare.use(crawlerAction({...LENOVO.MONITORS}))
-        })
-        .then((payload) => updatedDB(payload, db, LENOVO.MONITORS.dbPatch))
+        .then(() => nightmare.use(crawlerAction({...LENOVO.MONITORS}, lenovoCrawlerLaptops)))
+        .then((payload) => createIdForProduct(payload))
+        .then((payload) => collectOfPayload(payload, LENOVO.MONITORS.crawlerType))
+
+        /**
+         * Send to DB.
+         */
+        .then(() => updatedDB(totalResult, db, LENOVO.DB_PATH, LENOVO.NAME))
+        .then(() => updateIdCatalog(LENOVO.NAME, db))
 
         /**
          * Finalise all crawler actions.
          */
         .then(() => nightmare.end())
-        .then(() => console.log('Good Job!'))
         .catch((error) => console.error('Oh, again an error:', error));
 };
 
