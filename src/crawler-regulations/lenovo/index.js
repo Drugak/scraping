@@ -18,6 +18,7 @@ const collectOfPayload = (payload, productType) => {
 
 
 const runLenovoCrawler = (db) => {
+    console.log('Start Lenovo crawler');
     nightmare
         /**
          * Get Laptops info.

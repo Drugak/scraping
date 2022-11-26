@@ -17,6 +17,7 @@ const collectOfPayload = (payload, productType) => {
 };
 
 const runAsusCrawler = (db) => {
+    console.log('Start Asus crawler');
     nightmare
         /**
          * Get Phones info.
