@@ -6,7 +6,7 @@
 3. cd test-scraping
 4. node index.js
 
-##Test API
+## Test API
 [GET] localhost:300/get-product-by-id?productId=lay0ee6w04lsjtltf3qz
 
 ## Response
