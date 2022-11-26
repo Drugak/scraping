@@ -17,3 +17,17 @@ I have used firebase for db, so please send me your emails, and you will see db 
 
 ## DB result example 
 
+### All structure:
+<img width="967" alt="image" src="https://user-images.githubusercontent.com/7252343/204093526-efdd68f9-f73a-420d-8734-908b83eadada.png">
+
+### Company structure:
+<img width="672" alt="image" src="https://user-images.githubusercontent.com/7252343/204093576-ddd0c587-f5e1-4c3b-8f57-a864707d846f.png">
+
+### Product structure: 
+<img width="1249" alt="image" src="https://user-images.githubusercontent.com/7252343/204093613-a52968e1-abdb-4681-9123-ed1a89a3610f.png">
+
+### List of product id's: 
+<img width="695" alt="image" src="https://user-images.githubusercontent.com/7252343/204093655-b00d9cbf-1e6d-48d7-9ce2-4e208fcd30d5.png">
+
+
+
