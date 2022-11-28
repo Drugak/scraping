@@ -14,6 +14,7 @@
 
 ## Important 
 I have used firebase for db, so please send me your emails (vitosdrugak92@gmail.com), and you will see db structures. 
+https://console.firebase.google.com/u/0/project/test-trg-4b842/database/test-trg-4b842-default-rtdb/data
 
 ## DB result example 
 
