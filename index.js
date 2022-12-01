@@ -26,6 +26,5 @@ app.get('/get-product-by-id', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log('===== Hi TRG team! ===== \t¯\\(°_o)/¯');
     runCrawler(db);
 });
